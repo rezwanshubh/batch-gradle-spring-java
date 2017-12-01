@@ -1,4 +1,3 @@
-agency_idbb,agency_name,agency_url,agency_timezone,agency_phone,agency_lang
 100058,ABuss OÜ,http://www.peatus.ee,Europe/Tallinn,+372 53585411,et
 2,Adraku Transport OÜ,http://www.peatus.ee,Europe/Tallinn,+372 5148269,et
 71,Aktsiaselts Hansa Bussiliinid,http://www.peatus.ee,Europe/Tallinn,+372 4334302,et

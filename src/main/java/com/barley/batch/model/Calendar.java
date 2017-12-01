@@ -1,11 +1,14 @@
 package com.barley.batch.model;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 public class Calendar {
 
-    public Calendar()
-    {
+    public Calendar() {
 
     }
 
@@ -89,16 +92,25 @@ public class Calendar {
         return Start_date;
     }
 
-    public void setStart_date(Date start_date) {
-        Start_date = start_date;
+    public void setStart_date(String start_date) {
+
+        try {
+            Start_date = new SimpleDateFormat("yyyyMMdd", Locale.ENGLISH).parse(start_date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
     public Date getEnd_date() {
         return End_date;
     }
 
-    public void setEnd_date(Date end_date) {
-        End_date = end_date;
+    public void setEnd_date(String end_date) {
+        try {
+            End_date = new SimpleDateFormat("yyyyMMdd", Locale.ENGLISH).parse(end_date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
 
