@@ -43,7 +43,7 @@ public class BatchConfiguration {
     public FlatFileItemReader<Agency> reader(DataSource dataSource) {
 
         FlatFileItemReader<Agency> reader = new FlatFileItemReader<Agency>();
-        reader.setResource(new ClassPathResource("sample-data.csv"));
+        reader.setResource(new ClassPathResource("gtfs/agency.txt"));
         reader.setLineMapper(new DefaultLineMapper<Agency>() {{
             setLineTokenizer(new DelimitedLineTokenizer() {{
                 setNames(new String[]{"agency_id", "agency_name", "agency_url", "agency_timezone", "agency_phone", "agency_lang"});
