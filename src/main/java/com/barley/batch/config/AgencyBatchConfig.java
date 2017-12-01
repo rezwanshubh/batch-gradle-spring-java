@@ -2,7 +2,7 @@ package com.barley.batch.config;
 
 import com.barley.batch.dao.AgencyDAO;
 import com.barley.batch.model.Agency;
-import com.barley.batch.processor.RecordProcessor;
+import com.barley.batch.processor.AgencyProcessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.Job;
@@ -31,9 +31,9 @@ import javax.sql.DataSource;
 
 @Configuration
 @EnableBatchProcessing
-public class BatchConfiguration {
+public class AgencyBatchConfig {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(BatchConfiguration.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AgencyBatchConfig.class);
 
     @Bean
     public FlatFileItemReader<Agency> reader(DataSource dataSource) {
@@ -54,7 +54,7 @@ public class BatchConfiguration {
 
     @Bean
     public ItemProcessor<Agency, AgencyDAO> processor() {
-        return new RecordProcessor();
+        return new AgencyProcessor();
     }
 
     @Bean

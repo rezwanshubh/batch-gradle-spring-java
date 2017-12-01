@@ -1,9 +1,8 @@
 package com.barley.batch.config;
 
-import com.barley.batch.dao.AgencyDAO;
-import com.barley.batch.model.Agency;
+import com.barley.batch.dao.CalendarDAO;
 import com.barley.batch.model.Calendar;
-import com.barley.batch.processor.RecordProcessor;
+import com.barley.batch.processor.CalendarProcessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.Job;
@@ -32,51 +31,47 @@ import javax.sql.DataSource;
 
 @Configuration
 @EnableBatchProcessing
-public class BatchConfigCalendar {
-    private static final Logger LOGGER = LoggerFactory.getLogger(BatchConfiguration.class);
+public class CalendarBatchConfig {
+    private static final Logger LOGGER = LoggerFactory.getLogger(CalendarBatchConfig.class);
 
 
     @Bean
-    public FlatFileItemReader<Agency> reader(DataSource dataSource) {
+    public FlatFileItemReader<Calendar> reader(DataSource dataSource) {
 
-        FlatFileItemReader<Agency> reader = new FlatFileItemReader<Agency>();
-        reader.setResource(new ClassPathResource("sample-data.csv"));
-        reader.setLineMapper(new DefaultLineMapper<Agency>() {{
+        FlatFileItemReader<Calendar> reader = new FlatFileItemReader<Calendar>();
+        reader.setResource(new ClassPathResource("gtfs/calendar.txt"));
+        reader.setLineMapper(new DefaultLineMapper<Calendar>() {{
             setLineTokenizer(new DelimitedLineTokenizer() {{
-                setNames(new String[]{"agency_id", "agency_name", "agency_url", "agency_timezone", "agency_phone", "agency_lang"});
+                setNames(new String[]{"service_id", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"
+                        , "sunday", "start_date", "end_date"});
             }});
-            setFieldSetMapper(new BeanWrapperFieldSetMapper<Agency>() {{
-                setTargetType(Agency.class);
+            setFieldSetMapper(new BeanWrapperFieldSetMapper<Calendar>() {{
+                setTargetType(Calendar.class);
             }});
         }});
         return reader;
 
     }
 
-    @Bean
-    public ItemProcessor<Agency, AgencyDAO> processor() {
-        return new RecordProcessor();
-    }
+
 
     @Bean
-    public ItemWriter<AgencyDAO> writer(DataSource dataSource, ItemPreparedStatementSetter<AgencyDAO> setter) {
-        JdbcBatchItemWriter<AgencyDAO> writer = new JdbcBatchItemWriter<>();
+    public ItemWriter<CalendarDAO> writer(DataSource dataSource, ItemPreparedStatementSetter<CalendarDAO> setter) {
+        JdbcBatchItemWriter<CalendarDAO> writer = new JdbcBatchItemWriter<>();
         writer.setItemSqlParameterSourceProvider(new BeanPropertyItemSqlParameterSourceProvider<>());
         writer.setItemPreparedStatementSetter(setter);
-        writer.setSql("insert into agency (agency_id, agency_name, agency_url, agency_timezone, agency_phone, agency_lang) values (?,?,?,?,?,?)");
+        writer.setSql("insert into Calendar (service_id, monday, tuesday, wednesday, thursday, friday, saturday" +
+                ", sunday, start_date, end_date) values (?,?,?,?,?,?,?,?,?,?)");
         writer.setDataSource(dataSource);
         return writer;
     }
 
     @Bean
-    public ItemPreparedStatementSetter<AgencyDAO> setter() {
+    public ItemPreparedStatementSetter<CalendarDAO> setter() {
         return (item, ps) -> {
-            ps.setString(1, item.getAgency_ID());
-            ps.setString(2, item.getAgency_Name());
-            ps.setString(3, item.getAgency_Url());
-            ps.setString(4, item.getAgency_Timezone());
-            ps.setString(5, item.getAgency_Phone());
-            ps.setString(6, item.getAgency_Lang());
+
+
+
         };
     }
 
@@ -91,10 +86,10 @@ public class BatchConfigCalendar {
     }
 
     @Bean
-    public Step step1(StepBuilderFactory stepBuilderFactory, ItemReader<Agency> reader,
-                      ItemWriter<AgencyDAO> writer, ItemProcessor<Agency, AgencyDAO> processor) {
+    public Step step1(StepBuilderFactory stepBuilderFactory, ItemReader<Calendar> reader,
+                      ItemWriter<CalendarDAO> writer, ItemProcessor<Calendar, CalendarDAO> processor) {
         return stepBuilderFactory.get("step1")
-                .<Agency, AgencyDAO>chunk(5)
+                .<Calendar, CalendarDAO>chunk(5)
                 .reader(reader)
                 .processor(processor)
                 .writer(writer)

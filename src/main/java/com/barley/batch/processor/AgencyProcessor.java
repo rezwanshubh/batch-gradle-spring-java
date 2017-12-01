@@ -6,9 +6,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.item.ItemProcessor;
 
-public class RecordProcessor implements ItemProcessor<Agency, AgencyDAO> {
+public class AgencyProcessor implements ItemProcessor<Agency, AgencyDAO> {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(RecordProcessor.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AgencyProcessor.class);
 
     @Override
     public AgencyDAO process(Agency item) throws Exception {
