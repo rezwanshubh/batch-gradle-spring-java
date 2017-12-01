@@ -2,8 +2,7 @@ package com.barley.batch.config;
 
 import com.barley.batch.dao.AgencyDAO;
 import com.barley.batch.model.Agency;
-import com.barley.batch.model.RecordSO;
-import com.barley.batch.model.WriterSO;
+import com.barley.batch.model.Calendar;
 import com.barley.batch.processor.RecordProcessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +19,6 @@ import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.database.BeanPropertyItemSqlParameterSourceProvider;
 import org.springframework.batch.item.database.ItemPreparedStatementSetter;
 import org.springframework.batch.item.database.JdbcBatchItemWriter;
-import org.springframework.batch.item.database.JdbcCursorItemReader;
 import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper;
 import org.springframework.batch.item.file.mapping.DefaultLineMapper;
@@ -31,13 +29,12 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import javax.sql.DataSource;
-import java.sql.ResultSet;
 
 @Configuration
 @EnableBatchProcessing
-public class BatchConfiguration {
-
+public class BatchConfigCalendar {
     private static final Logger LOGGER = LoggerFactory.getLogger(BatchConfiguration.class);
+
 
     @Bean
     public FlatFileItemReader<Agency> reader(DataSource dataSource) {

@@ -1,12 +1,4 @@
-DROP TABLE IF EXISTS reader;
-DROP TABLE IF EXISTS writer;
+DROP TABLE IF EXISTS agency;
 
-CREATE TABLE `reader` (`id` INT  NOT NULL AUTO_INCREMENT,`firstName`  VARCHAR(20) NULL,`lastName`   VARCHAR(20) NULL,`random_num` VARCHAR(20) NULL, PRIMARY KEY (`id`));
+CREATE TABLE `agency` (`id` BIGINT(20)  NOT NULL AUTO_INCREMENT, `agency_id`  VARCHAR(40) NULL, `agency_name` VARCHAR(500) NULL, `agency_url`  VARCHAR(500) NULL, `agency_timezone` VARCHAR(40) NULL, `agency_phone`  VARCHAR(40) NULL, `agency_lang` VARCHAR(20) NULL, PRIMARY KEY (`id`));
 
-CREATE TABLE `writer` (`id` INT  NOT NULL AUTO_INCREMENT,`full_name`  VARCHAR(40) NULL,`random_num` VARCHAR(20) NULL, PRIMARY KEY (`id`));
-
-INSERT INTO `reader` (`firstName`, `lastName`, `random_num`) VALUES ('abc', 'def', '1');
-INSERT INTO `reader` (`firstName`, `lastName`, `random_num`) VALUES ('def', 'zhu', '2');
-INSERT INTO `reader` (`firstName`, `lastName`, `random_num`) VALUES ('dummy', 'name', '3');
-INSERT INTO `reader` (`firstName`, `lastName`, `random_num`) VALUES ('non', 'pay', '4');
-INSERT INTO `reader` (`firstName`, `lastName`, `random_num`) VALUES ('spring', 'batch', '5');

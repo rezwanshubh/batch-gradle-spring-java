@@ -1,22 +1,28 @@
 package com.barley.batch.processor;
 
+import com.barley.batch.dao.AgencyDAO;
+import com.barley.batch.model.Agency;
 import com.barley.batch.model.RecordSO;
 import com.barley.batch.model.WriterSO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.item.ItemProcessor;
 
-public class RecordProcessor implements ItemProcessor<RecordSO, WriterSO> {
+public class RecordProcessor implements ItemProcessor<Agency, AgencyDAO> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RecordProcessor.class);
 
     @Override
-    public WriterSO process(RecordSO item) throws Exception {
+    public AgencyDAO process(Agency item) throws Exception {
         LOGGER.info("Processing Record: {}", item);
-        WriterSO writerSo = new WriterSO();
-        writerSo.setId(item.getId());
-        writerSo.setFullName(item.getFirstName() + " " + item.getLastName());
-        writerSo.setRandomNum(String.valueOf(Math.random()).substring(3, 8));
+        AgencyDAO writerSo = new AgencyDAO();
+        writerSo.setAgency_ID(item.getAgency_ID());
+        writerSo.setAgency_Name(item.getAgency_Name());
+        writerSo.setAgency_Url(item.getAgency_Url());
+        writerSo.setAgency_Timezone(item.getAgency_Timezone());
+        writerSo.setAgency_Phone(item.getAgency_Phone());
+        writerSo.setAgency_Lang(item.getAgency_Lang());
+
         LOGGER.info("Processed Writer: {}", writerSo);
         return writerSo;
     }

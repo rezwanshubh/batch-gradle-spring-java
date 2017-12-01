@@ -25,17 +25,7 @@ public class JobCompletionNotificationListener extends JobExecutionListenerSuppo
         if (jobExecution.getStatus() == BatchStatus.COMPLETED) {
             log.info("!!! JOB FINISHED! Time to verify the results");
 
-            List<WriterSO> results = jdbcTemplate.query("SELECT id, full_name, random_num FROM writer", (rs, row) -> {
-                WriterSO writerSO = new WriterSO();
-                writerSO.setId(rs.getLong("id"));
-                writerSO.setFullName(rs.getString("full_name"));
-                writerSO.setRandomNum(rs.getString("random_num"));
-                return writerSO;
-            });
 
-            for (WriterSO writerSO : results) {
-                log.info("Found <" + writerSO + "> in the database.");
-            }
         }
     }
 }
