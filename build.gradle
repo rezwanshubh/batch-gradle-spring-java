@@ -32,7 +32,7 @@ dependencies {
         exclude group: "ch.qos.logback", module: "logback-classic"
     }
     //compile('org.springframework.boot:spring-boot-starter-jdbc')
-    compile('mysql:mysql-connector-java:5.1.44')
+    compile('mysql:mysql-connector-java:5.1.38')
     testCompile('junit:junit')
 }
 

@@ -19,8 +19,13 @@ import org.springframework.batch.item.database.BeanPropertyItemSqlParameterSourc
 import org.springframework.batch.item.database.ItemPreparedStatementSetter;
 import org.springframework.batch.item.database.JdbcBatchItemWriter;
 import org.springframework.batch.item.database.JdbcCursorItemReader;
+import org.springframework.batch.item.file.FlatFileItemReader;
+import org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper;
+import org.springframework.batch.item.file.mapping.DefaultLineMapper;
+import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import javax.sql.DataSource;
@@ -33,8 +38,36 @@ public class BatchConfiguration {
     private static final Logger LOGGER = LoggerFactory.getLogger(BatchConfiguration.class);
 
     @Bean
-    public ItemReader<RecordSO> reader(DataSource dataSource) {
-        JdbcCursorItemReader<RecordSO> reader = new JdbcCursorItemReader<>();
+    public FlatFileItemReader<RecordSO> reader() {
+        FlatFileItemReader<RecordSO> reader = new FlatFileItemReader<RecordSO>();
+        reader.setResource(new ClassPathResource("sample-data.csv"));
+        reader.setLineMapper(new DefaultLineMapper<RecordSO>() {{
+            setLineTokenizer(new DelimitedLineTokenizer() {{
+                setNames(new String[] { "firstName", "lastName" });
+            }});
+            setFieldSetMapper(new BeanWrapperFieldSetMapper<RecordSO>() {{
+                setTargetType(RecordSO.class);
+            }});
+        }});
+        return reader;
+    }
+
+    @Bean
+    public FlatFileItemReader<RecordSO> reader(DataSource dataSource) {
+
+        FlatFileItemReader<RecordSO> reader = new FlatFileItemReader<RecordSO>();
+        reader.setResource(new ClassPathResource("sample-data.csv"));
+        reader.setLineMapper(new DefaultLineMapper<RecordSO>() {{
+            setLineTokenizer(new DelimitedLineTokenizer() {{
+                setNames(new String[] { "id", "firstName", "lastName",  "random_num" });
+            }});
+            setFieldSetMapper(new BeanWrapperFieldSetMapper<RecordSO>() {{
+                setTargetType(RecordSO.class);
+            }});
+        }});
+        return reader;
+
+        /*JdbcCursorItemReader<RecordSO> reader = new JdbcCursorItemReader<>();
         reader.setSql("select id, firstName, lastname, random_num from reader");
         reader.setDataSource(dataSource);
         reader.setRowMapper(
@@ -53,7 +86,8 @@ public class BatchConfiguration {
                         return null;
                     }
                 });
-        return reader;
+        return reader;*/
+
     }
 
     @Bean

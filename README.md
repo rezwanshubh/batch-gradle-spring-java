@@ -195,9 +195,9 @@ Now, we need to set up some spring datasource properties which will help spring 
 
 ```
 spring.datasource.driverClassName=com.mysql.jdbc.Driver
-spring.datasource.url=jdbc:mysql://localhost:3306/rez_mysql
-spring.datasource.username=root
-spring.datasource.password=1234
+spring.datasource.url=jdbc:mysql://localhost:3306/batch
+spring.datasource.username=user
+spring.datasource.password=pass
 spring.jpa.database-platform=org.hibernate.dialect.MySQLDialect
 spring.jpa.show-sql=false
 # use below property only if you want spring to use user-configured sql create-drop databases tables. Skip it all tables/data already present.
