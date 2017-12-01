@@ -2,8 +2,6 @@ package com.barley.batch.processor;
 
 import com.barley.batch.dao.AgencyDAO;
 import com.barley.batch.model.Agency;
-import com.barley.batch.model.RecordSO;
-import com.barley.batch.model.WriterSO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.item.ItemProcessor;
